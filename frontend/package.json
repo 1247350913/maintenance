@@ -1,0 +1,9 @@
+{
+  "name": "@maintenance/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"dev": "vite", "build": "tsc -b && vite build"},
+  "dependencies": {"@maintenance/shared": "*", "@vitejs/plugin-react": "latest", "vite": "latest", "typescript": "latest", "react": "latest", "react-dom": "latest", "react-router-dom": "^7.1.5"},
+  "devDependencies": {"@types/react": "latest", "@types/react-dom": "latest"}
+}
