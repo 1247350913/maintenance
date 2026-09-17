@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "node:path";
 import "dotenv/config";
 import { crudRouter } from "./routes/crud.js";
 import { dashboardRouter } from "./routes/dashboard.js";
@@ -13,6 +14,10 @@ app.use("/api", crudRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/machines", machinesRouter);
 app.use((error: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => res.status(500).json({ error: error.message }));
+
+const webDist = path.resolve(process.cwd(), "../frontend/dist");
+app.use(express.static(webDist));
+app.get("/{*path}", (_req, res) => res.sendFile(path.join(webDist, "index.html")));
 
 const port = Number(process.env.PORT ?? 8787);
 app.listen(port, () => console.log(`Maintenance API listening on http://localhost:${port}`));
