@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { ValidationValueSchema } from "@maintenance/shared";
-import { getDb } from "../db/mongo.js";
-import { ensureCoreValidationValues } from "../db/coreValidationValues.js";
-import { oid, serialize } from "../db/helpers.js";
+import { getDb } from "../../../database/mongo.js";
+import { oid, serialize } from "../../../database/helpers.js";
 
 export const validationRouter = Router();
 
@@ -16,7 +15,6 @@ validationRouter.get("/", async (req, res, next) => {
     if (core !== undefined) filter.core = core;
     if (query) filter.value = { $regex: query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" };
     const db = await getDb();
-    await ensureCoreValidationValues(db);
     const rows = await db.collection("validationValues").find(filter).sort({ category: 1, value: 1 }).toArray();
     res.json(rows.map((row) => serialize(row)));
   } catch (error) { next(error); }
