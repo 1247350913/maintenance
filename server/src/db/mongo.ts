@@ -15,6 +15,14 @@ export async function getDb(): Promise<Db> {
   client = new MongoClient(uri);
   await client.connect();
   database = client.db(process.env.MONGODB_DB ?? "maintenance");
+  const machines = database.collection("machines");
+  await Promise.all([
+    machines.updateMany({ spec: { $exists: true }, spec1: { $exists: false } }, { $rename: { spec: "spec1" } }),
+    machines.updateMany({ status: "active" }, { $set: { status: "Active" } }),
+    machines.updateMany({ status: "pending" }, { $set: { status: "Pending" } }),
+    machines.updateMany({ status: "sold" }, { $set: { status: "Sold" } }),
+    machines.updateMany({}, { $unset: { startingOdometer: "", legacyCode: "" } })
+  ]);
   return database;
 }
 

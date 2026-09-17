@@ -5,7 +5,7 @@ const DAY = 24 * 60 * 60 * 1000;
 export function calculateDueInstance(task: TaskDefinition, machine: Machine, rule: Rule, completion?: Completion, now = new Date()): DueInstance {
   const currentMiles = machine.currentOdometer;
   const anchorDate = completion?.completedAt ?? machine.inServiceDate;
-  const anchorMiles = completion?.odometer ?? machine.startingOdometer;
+  const anchorMiles = completion?.odometer ?? 0;
   const dueDate = anchorDate && rule.yearsInterval ? new Date(new Date(anchorDate).getTime() + rule.yearsInterval * 365.25 * DAY) : undefined;
   const dueOdometer = anchorMiles !== undefined && rule.mileageInterval ? anchorMiles + rule.mileageInterval : undefined;
   const dateDue = dueDate ? dueDate.getTime() <= now.getTime() : false;

@@ -5,16 +5,28 @@ export const MachineSchema = z.object({
   code: z.string().min(1),
   type: z.string().min(1),
   year: z.number().int().min(1800).max(3000).optional(),
-  make: z.string().min(1),
+  make: z.string().optional(),
   model: z.string().optional(),
-  spec: z.string().optional(),
+  spec1: z.string().optional(),
+  acquiredDate: z.string().optional(),
   inServiceDate: z.string().optional(),
-  startingOdometer: z.number().nonnegative().default(0),
   currentOdometer: z.number().nonnegative().optional(),
   currentOdometerDate: z.string().optional(),
-  status: z.enum(["active", "inactive"]).default("active"),
+  status: z.string().min(1).default("Active"),
   vinOrSerial: z.string().optional(),
-  licenseId: z.string().optional()
+  modelId: z.string().optional(),
+  licenseId: z.string().optional(),
+  reminderMiles: z.number().nonnegative().optional(),
+  reminderYears: z.number().nonnegative().optional()
+});
+
+export const ValidationCategorySchema = z.enum(["type", "make", "model", "spec1", "status"]);
+
+export const ValidationValueSchema = z.object({
+  id: z.string().optional(),
+  category: ValidationCategorySchema,
+  value: z.string().trim().min(1),
+  core: z.boolean().default(false)
 });
 
 export const RuleSchema = z.object({
@@ -44,6 +56,8 @@ export const CompletionSchema = z.object({
 });
 
 export type Machine = z.infer<typeof MachineSchema>;
+export type ValidationCategory = z.infer<typeof ValidationCategorySchema>;
+export type ValidationValue = z.infer<typeof ValidationValueSchema>;
 export type Rule = z.infer<typeof RuleSchema>;
 export type TaskDefinition = z.infer<typeof TaskDefinitionSchema>;
 export type Completion = z.infer<typeof CompletionSchema>;

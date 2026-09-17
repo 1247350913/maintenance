@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { getDb, closeDb } from "./db/mongo.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const seed = JSON.parse(fs.readFileSync(path.resolve(here, "../../data/seed.json"), "utf8"));
+const seed = JSON.parse(fs.readFileSync(path.resolve(here, "../../database/seed.json"), "utf8"));
 
 const db = await getDb();
 for (const [collectionName, documents] of Object.entries(seed)) {

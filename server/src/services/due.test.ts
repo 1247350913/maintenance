@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { calculateDueInstance } from "./due.js";
 import type { Machine, Rule, TaskDefinition } from "@maintenance/shared";
 
-const machine: Machine = { id: "m1", code: "CAR-1", type: "Auto", make: "Test", startingOdometer: 0, currentOdometer: 1000, status: "active", inServiceDate: "2025-01-01" };
+const machine: Machine = { id: "m1", code: "CAR-1", type: "Auto", make: "Test", currentOdometer: 1000, status: "Active", inServiceDate: "2025-01-01" };
 const task: TaskDefinition = { id: "t1", machineId: "m1", name: "Oil change", category: "Engine", ruleId: "r1" };
 
 describe("calculateDueInstance", () => {
